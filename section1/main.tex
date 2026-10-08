@@ -1,0 +1,544 @@
+% Define important features for the document
+\documentclass[12pt,oneside]{article}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+
+% Import packages
+\usepackage[margin = 1in]{geometry}
+\usepackage{amsfonts, amsmath, amssymb, amsthm, calc, centernot, color, csquotes, dsfont, enumitem, environ, fancyhdr, fontawesome5, graphicx, hyperref, marvosym, mathrsfs, mathtools, tcolorbox, titlesec}
+\usepackage[flushmargin,hang]{footmisc}
+\tcbuselibrary{breakable}
+
+% Define toggles
+\newif\ifsolutions
+\solutionstrue % Toggle for instructor version
+% \solutionsfalse % Toggle for student version
+
+% Define size and spacing of section and subsection
+\titleformat{\section}
+  {\normalfont\large\bfseries}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries}
+  {\thesubsection}{1em}{}
+\titlespacing*{\section}{0pt}{6pt}{6pt} % ({left}{before}{after})
+\titlespacing*{\subsection}{0pt}{6pt}{6pt} % ({left}{before}{after})
+
+% Define commands
+\newcommand{\indep}{\perp\!\!\!\perp}
+\newcommand{\notindep}{\mathrel{\not\!\perp\!\!\!\perp}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\text{Var}}
+\newcommand{\Cov}{\text{Cov}}
+\newcommand{\Corr}{\text{Corr}}
+\newcommand{\SD}{\text{SD}}
+\newcommand{\SE}{\text{SE}}
+\newcommand{\Bias}{\text{Bias}}
+\newcommand{\MSE}{\text{MSE}}
+\newcommand{\Risk}{\text{Risk}}
+\newcommand{\Like}{\mathcal{L}}
+\newcommand{\boot}{\text{boot}}
+\newcommand{\strat}{\text{strat}}
+\newcommand{\supp}{\text{supp}}
+\newcommand{\MLE}{\text{MLE}}
+\newcommand{\MoM}{\text{MoM}}
+\newcommand{\MOM}{\text{MOM}}
+\newcommand{\OLS}{\text{OLS}}
+\newcommand{\LS}{\text{LS}}
+\newcommand{\MAP}{\text{MAP}}
+\newcommand{\MAE}{\text{MAE}}
+\newcommand{\LP}{\text{LP}}
+\newcommand{\HT}{\text{HT}}
+\newcommand{\JS}{\text{JS}}
+\newcommand{\RB}{\text{RB}}
+\newcommand{\UB}{\text{UB}}
+\newcommand{\DIM}{\text{DIM}}
+\newcommand{\PATE}{\text{PATE}}
+\newcommand{\SATE}{\text{SATE}}
+\newcommand{\VIF}{\text{VIF}}
+\newcommand{\GVIF}{\text{GVIF}}
+\newcommand{\AIC}{\text{AIC}}
+\newcommand{\BIC}{\text{BIC}}
+\newcommand{\LASSO}{\text{LASSO}}
+\newcommand{\PSS}{\text{PSS}}
+\newcommand{\CV}{\text{CV}}
+\newcommand{\logit}{\text{logit}}
+\newcommand{\odds}{\text{odds}}
+\newcommand{\OR}{\text{OR}}
+\newcommand{\N}{\mathcal{N}}
+\newcommand{\Bern}{\text{Bern}}
+\newcommand{\Bin}{\text{Bin}}
+\newcommand{\Beta}{\text{Beta}}
+\newcommand{\Gam}{\text{Gamma}}
+\newcommand{\Expo}{\text{Expo}}
+\newcommand{\Pois}{\text{Pois}}
+\newcommand{\Unif}{\text{Unif}}
+\newcommand{\DUnif}{\text{DUnif}}
+\newcommand{\Geom}{\text{Geom}}
+\newcommand{\FS}{\text{FS}}
+\newcommand{\NBin}{\text{NBin}}
+\newcommand{\HGeom}{\text{HGeom}}
+\newcommand{\Mult}{\text{Mult}}
+\newcommand{\MVN}{\text{MVN}}
+\newcommand{\IG}{\text{IG}}
+\newcommand{\Tweedie}{\text{Tweedie}}
+\newcommand{\simiid}{\overset{\text{i.i.d.}}{\sim}}
+\newcommand{\simind}{\overset{\text{ind.}}{\sim}}
+\newcommand{\simnull}{\overset{H_0}{\sim}}
+\newcommand{\simapprox}{\overset{\cdot}{\sim}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\I}{\mathbb{I}}
+\newcommand{\indic}{\mathds{1}}
+\newcommand{\iid}{\text{i.i.d.}}
+\newcommand{\Ind}{\text{Ind}}
+\newcommand{\SSq}{\text{SSq}}
+\newcommand{\trace}{\text{trace}}
+\newcommand{\rank}{\text{rank}}
+\newcommand{\diag}{\text{diag}}
+\newcommand{\adj}{\text{adj}}
+\newcommand{\SSE}{\text{SSE}}
+\newcommand{\SST}{\text{SST}}
+\newcommand{\SSR}{\text{SSR}}
+\newcommand{\GLS}{\text{GLS}}
+\newcommand{\ti}{\text{time}}
+\newcommand{\outcome}{\text{outcome}}
+\newcommand{\exposure}{\text{exposure}}
+\newcommand{\NA}{\text{NA}}
+\newcommand{\cp}{\text{cp}}
+\newcommand{\tip}{\textbf{\faLightbulb}: }
+\newcommand{\warning}{\textbf{\Biohazard}: }
+\newcommand{\blank}[1][4cm]{\underline{\hspace{#1}}}
+
+% Define theorem-style environment (italic body, bold header)
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+% Define definition-style environment (upright body, bold header)
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{problem}{\faPen \ Problem}
+\newtheorem{concept}{\faPen \ Concept Checker}
+\newtheorem{challenge}{\faFire \ Challenge}
+\newtheorem{activity}{\faDiceThree \ Activity}
+
+% Define idea-style environment (unnumbered definition)
+\newtheorem*{idea}{Idea}
+
+% Define remark-style environment (upright body, italic header)
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+% Define environment for solution box
+\newsavebox{\solutioncontentbox}
+\NewEnviron{solutionbox}[1][Solution]{
+  \sbox{\solutioncontentbox}{
+    \begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}
+      \BODY
+    \end{minipage}
+  }
+  \ifsolutions
+    \begin{tcolorbox}[
+      title=#1,
+      colback=gray!5,
+      colframe=black,
+      breakable
+    ]
+      \BODY
+    \end{tcolorbox}
+  \else
+    \begin{tcolorbox}[
+      title=#1,
+      colback=white,
+      colframe=black,
+      breakable,
+      height=\dimexpr\ht\solutioncontentbox+\dp\solutioncontentbox+1cm\relax
+    ]
+    \end{tcolorbox}
+  \fi
+}
+
+% Begin document
+\begin{document}
+\pagestyle{fancy}
+\fancyhead[L]{STAT 110: Introduction to Probability}
+\fancyhead[R]{Fall 2026}
+\begin{center}
+\bf \Large
+Section 1: Counting \\[0.5em]
+\normalsize
+Avery Kim (\href{mailto:averykim@college.harvard.edu}{\texttt{averykim@college.harvard.edu}}), \\[0.2em]
+Ricky Truong (\href{mailto:rickytruong@college.harvard.edu}{\texttt{rickytruong@college.harvard.edu}})
+\end{center}
+
+% Section: Introduction
+\section{Introduction}
+
+\subsection{Logistics}
+
+Welcome! The goal of our weekly section is to review content from lecture, with emphasis on big-picture intuition, mathematical derivation, and hands-on practice.
+
+Specifically, we aim for section to be interactive, well-paced, inclusive, and fun! Please do not hesitate to reach out if you have any questions/feedback!
+
+\subsection{Office Hours}
+
+$\bullet$ See the Google Calendar for the most accurate information!
+
+\subsection{Attendance}
+
+$\bullet$ \href{https://bit.ly/stat110harvard}{\texttt{bit.ly/stat110harvard}}
+
+% Section: Set Theory
+\section{Set Theory}
+
+\begin{idea}
+\textit{Sets} are the foundation of modern mathematics, including probability theory. Much of the language of this course is in set theory. 
+\end{idea}
+
+\begin{definition}[Set]
+A \textit{set} $S$ is a collection of elements.
+
+$\bullet$ $x \in S$ means $x$ is an element of the set $S$ (while $x \notin S$ means $x$ is \textit{not} in $S$).
+
+$\bullet$ The \textit{cardinality} of $S$, denoted $|S|$, is its size (i.e., the number of unique elements).
+
+$\bullet$ E.g., if $S = \{1, 3, 5, \ldots\}$ is the set of all odd numbers, then $1 \in S$ while $2 \notin S$.
+\end{definition}
+
+\begin{definition}[Empty set]
+The \textit{empty set}, denoted $\emptyset$ or $\{\}$, is the set with no elements.
+\end{definition}
+
+\begin{definition}[Subset]
+If $A$ and $B$ are sets, then $A$ is a \textit{subset} of $B$, denoted $A \subseteq B$, if every element of $A$ is also an element of $B$.
+
+$\bullet$ E.g., if $S = \{1, 3, 5, \ldots\}$ is the set of all odd numbers, then $S \subseteq \mathbb{N}$, where $\mathbb{N} = \{1, 2, 3, \ldots\}$ is the set of natural numbers.
+\end{definition}
+
+\begin{definition}[Union]
+The \textit{union} of two sets $A$ and $B$, denoted $A \cup B$, is the set of all elements in $A$ or $B$ (or both): \[A \cup B = \{x : x \in A \text{ or } x \in B\}.\]
+\end{definition}
+
+\begin{definition}[Intersection]
+The \textit{intersection} of two sets $A$ and $B$, denoted $A \cap B$, is the set of all elements that are in both $A$ and $B$: \[A \cap B = \{x : x \in A \text{ and } x \in B\}.\]
+
+$\bullet$ We say $A$ and $B$ are \textit{disjoint} if $A \cap B = \emptyset$.
+\end{definition}
+
+\begin{definition}[Complement]
+Let $A \subseteq S$. The \textit{complement} of $A$, denoted $A^c$, is the set of all elements in $S$ that are not in $A$: \[A^c = \{x \in S: x \notin A\}.\]
+\end{definition}
+
+\begin{definition}[De Morgan's Laws]
+We can \enquote{distribute} the \textit{complement} inside parentheses if we \enquote{flip} the operation:
+
+\[(A_1 \cup A_2 \cup \ldots \cup A_n)^c = A_1^c \cap A_2^c \cap \ldots \cap A_n^c\] 
+
+and
+
+\[(A_1 \cap A_2 \cap \ldots \cap A_n)^c = A_1^c \cup A_2^c \cup \ldots \cup A_n^c.\]
+
+$\bullet$ E.g., $(A \cup B)^c = A^c \cap B^c$ and $(A \cap B)^c = A^c \cup B^c$.
+\end{definition}
+
+\begin{concept}
+Let $S = \{1, 3, 5, \ldots\}$ be the set of all odd numbers and $\mathbb{N} = \{1, 2, 3, \ldots\}$ be the set of natural numbers. What is $S \cup \mathbb{N}$? What is $S \cap \mathbb{N}$? For $S \subseteq \mathbb{N}$, what is $S^c$?
+\end{concept}
+
+\begin{solutionbox}
+$S \cup \mathbb{N} = \mathbb{N} = \{1, 2, 3, \ldots\}$, $S \cap \mathbb{N} = S = \{1, 3, 5, \ldots\}$, and $S^c = \{2, 4, 6, \ldots\}$ (i.e., the set of all even numbers excluding 0).
+\end{solutionbox}
+
+% Section: Probability
+\section{Probability}
+
+\begin{idea}
+We'll introduce important definitions so that we can rigorously discuss \textit{probability}, beginning with the naive definition. As we'll see, naive probability is limited in its assumptions.
+\end{idea}
+
+\begin{definition}[Outcome]
+An \textit{outcome} is the result after conducting an experiment.
+
+$\bullet$ E.g., I get dealt the ace of hearts.
+\end{definition}
+
+\begin{definition}[Sample space]
+The \textit{sample space} $S$ of an experiment is the set of all possible \textit{outcomes}.
+
+$\bullet$ E.g., the set of the $52$ cards I could've been dealt.
+\end{definition}
+
+\begin{definition}[Event]
+An \textit{event} $A$ is a collection of \textit{outcomes}.
+
+$\bullet$ Formally, an event is a \textit{subset} of the \textit{sample space} (i.e., $A \subseteq S$).
+
+$\bullet$ We say that $A$ \textit{occurred} if the actual/observed \textit{outcome} is in $A$.
+
+$\bullet$ E.g., the event that I get dealt an ace is a collection of $4$ outcomes.
+\end{definition}
+
+\begin{definition}[Naive definition of probability]
+Let $A$ be an \textit{event} for an experiment with a finite \textit{sample space} $S$. The \textit{naive probability} of $A$ is \[P_{\text{naive}}(A) = \frac{\text{\# of outcomes favorable to $A$}}{\text{\# of total outcomes in $S$}} = \frac{|A|}{|S|}.\]
+
+$\bullet$ \warning We can only use this when the sample space is \textit{finite} and consists of \textit{equally likely outcomes}.
+
+$\bullet$ E.g., let $A$ be the event that I get dealt an ace. Then $P(A) = \frac{4}{52} = \frac{1}{13}$.
+\end{definition}
+
+\begin{concept}
+Why is it okay to use the naive definition of probability in the example above (where $A$ is the event I get dealt an ace)? What is an example where it is not okay?
+\end{concept}
+
+\begin{solutionbox}
+Here, the sample space is finite and consists of equally likely outcomes. Consider the probability of life on Mars. Since $S = \{\text{life}, \text{no life}\}$, $P_{\text{naive}}(\text{life}) = \frac{1}{2}$, but this is nonsensical since these should not be viewed as equally likely outcomes!
+\end{solutionbox}
+
+% Section: Counting
+\section{Counting}
+
+\begin{idea}
+Naive probability requires \textit{counting} the number of possibilities, so we must discuss combinatorics, the branch of mathematics concerning counting. The foundation of all the formulas and techniques we'll introduce is the \textit{multiplication rule}.
+\end{idea}
+
+\subsection{Counting Techniques}
+
+\begin{center}
+  \includegraphics[width=1\textwidth]{stat110_section1_figure1.jpg}\\{\footnotesize FIGURE 1: A tree diagram illustrating the multiplication rule.}
+\end{center}
+
+\begin{definition}[Multiplication rule]
+Suppose that Experiment A has $a$ possible outcomes, and for each of those outcomes, Experiment B has $b$ possible outcomes. Then the \textit{compound experiment} has $a \times b$ possible outcomes.
+
+$\bullet$ In Figure 1, the tree diagram illustrates an example where Experiment A has $3$ possible outcomes, for each of which Experiment B has $4$ possible outcomes, leading to $3 \times 4 = 12$ possible outcomes overall.
+\end{definition}
+
+\begin{definition}[Factorial]
+For any positive integer $n$, \[n! = n(n - 1)(n - 2) \cdots 1.\]
+
+$\bullet$ For $n = 0$, $0! = 1$.
+\end{definition}
+
+\begin{definition}[Permutation]
+For $1, 2, \ldots, n$, there are $n!$ \textit{permutations}, each of which is an arrangement in some order.
+
+$\bullet$ E.g., for $(1, 2, 3, 4, 5)$, there are $5! = 120$ permutations, of which $(3, 5, 1, 2, 4)$ is one.
+\end{definition}
+
+\begin{concept}
+Suppose that there is a race with 3 people: Alice, Bob, and Charlie. How many possibilities are there for the first, second, and third place winners?
+\end{concept}
+
+\begin{solutionbox}
+Using the definition of permutation, there are $3! = 6$ arrangements. Using the multiplication rule, there are 3 possibilities for who gets first place. Once that is fixed, there are 2 possibilities for who gets second place. Once those are fixed, there is 1 possibility for who gets third place. Thus, $3 \times 2 \times 1 = 6$.
+\end{solutionbox}
+
+\begin{definition}[Adjusting for overcounting]
+It is not always easy to directly count each possibility only once. But if we are able to count each possibility exactly $c$ times (for some $c$), then we can adjust by \textit{dividing by $c$}.
+
+$\bullet$ \tip Ask whether or not \textit{order matters} since, if it doesn't, we often need to \textit{adjust for overcounting}.
+
+$\bullet$ E.g., in \textit{rankings}, order matters, so there are $3 \times 2 = 6$ ways to choose first and second place in a $3$-person race. But in \textit{groupings}, order doesn't matter, so we double-counted each possibility and divide by $2$ to get the correct count (i.e., $\frac{6}{2} = 3$ ways to choose groups of $2$).
+\end{definition}
+
+\begin{definition}[Binomial coefficient]
+For any nonnegative integers $k$ and $n$, the \textit{binomial coefficient} $\binom{n}{k}$ is the number of subsets of size $k$ for a set of size $n$.\footnote{This is sometimes referred to as a \textit{combination}.}
+
+$\bullet$ For $k \leq n$, \[\binom{n}{k} = \frac{n (n - 1) \cdots (n - k + 1)}{k!} = \frac{n!}{(n - k)! k!}.\]
+
+$\bullet$ For $k > n$, $\binom{n}{k} = 0$.
+
+$\bullet$ Sets and subsets are \textit{unordered} (e.g., $\{1, 2\} = \{2, 1\}$), so we are counting the \textit{number of ways to choose $k$ objects out of $n$}, \textit{without replacement} and \textit{where order doesn't matter}. Thus, we divide by $k!$ to \textit{adjust for overcounting}.
+
+$\bullet$ E.g., there are $\binom{3}{2} = 3$ ways to choose 2 people from a group of 3.
+\end{definition}
+
+\begin{concept}
+Consider a group of $4$ people. How many ways are there to choose a $2$-person committee? How many ways are there to break everyone into $2$ teams of $2$?
+\end{concept}
+
+\begin{solutionbox}
+First, using the definition of binomial coefficient, there are $\binom{4}{2} = 6$ ways to choose $2$ people from a group of $4$. Using the multiplication rule, there are $4$ ways to choose the first person and $3$ ways to choose the second person, but we divide by $2$ to adjust for overcounting (since, e.g., the committee $\{A, B\}$ is the same as the committee $\{B, A\}$), leading to the same answer of $\frac{4 \times 3}{2} = 6$. Second, using the previous result, there are $\frac{6}{2} = 3$ ways to break everyone into $2$ teams of $2$. We divide by $2$ to adjust for overcounting (since, e.g., choosing the team $\{A, B\}$ implies the other team is $\{C, D\}$).
+\end{solutionbox}
+
+\begin{concept}
+Suppose that you can go to either Jefe's or Felipe's, and at each place, you can order a burrito, quesadilla, or nachos. How many possible meal choices are there? If you eat once in the morning and again in the afternoon, how many possibilities are there now? Finally, if you only care about what foods you can get in the day (and not the order in which you get them), how many possibilities are there now?
+\end{concept}
+
+\begin{solutionbox}
+Let $R_t(o)$ correspond to order $o$ at restaurant $R$ at time $t$ (e.g., $F_m(b)$ means Felipe's burrito in the morning). First, there are $2$ choices for restaurants and, at each, $3$ choices for orders, so there are $2 \times 3 = 6$ possibilities. Next, there are now $2$ choices for time, so at each previous possibility (e.g., $J(b)$), there are $6$ more branches that correspond to the afternoon options (e.g., after $J_m(b)$ can be $J_a(b), J_a(q), \ldots$). Thus, there are $2 \times 3 \times 6 = 36$ possibilities. Finally, if we only care about what foods we can get in the day, then we're looking for unordered possibilities. E.g., $J_m(b), J_a(q)$ and $J_m(q), J_a(b)$ should be counted only once as $J(b), J(q)$. We cannot simply divide $36$ by $2$ since some possibilities repeat and are only listed once (e.g., $J_m(b), J_a(b)$). There are $6$ of these repeaters, so the number of ordered possibilities that aren't the same is $36 - 6 = 30$. We double count these, so the number of unordered possibilities that aren't the same is $\frac{30}{2} = 15$. We add the $6$ repeaters that are only listed once, so there are $15 + 6 = 21$ possibilities.
+\end{solutionbox}
+
+\subsection{Sampling}
+
+Let $1 \leq k \leq n$. How many possible samples of size $k$ are there from $n$ objects?
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{p{4cm}|p{6cm}|p{6cm}}
+& \textbf{Order Matters} & \textbf{Order Doesn't Matter} \\ \hline
+
+\textbf{W/ Replacement}
+& $n^k = \underbrace{n \times n \times \cdots \times n}_{k}$
+& $\binom{n + k - 1}{k - 1}$ \\
+
+\hline
+
+\textbf{W/o Replacement}
+& $\frac{n!}{(n - k)!} = \underbrace{n(n - 1) \cdots (n - k + 1)}_{k}$
+& $\binom{n}{k} = \frac{n (n - 1) \cdots (n - k + 1)}{k!} = \frac{n!}{(n - k)! k!}$
+\end{tabular}
+\end{center}
+
+\begin{example}[Order matters, w/ replacement]
+We have a jar with $n$ balls, numbered $1$ to $n$. Each time we take a ball out, we return it to the jar. Thus, there are $n$ possibilities for each draw, so there are $n^k$ ways to obtain a sample of size $k$.
+
+$\bullet$ E.g., there are $3^2 = 3 \times 3 = 9$ ways to choose who is first in one race and who is first in another race ($k = 2$), each with 3 people ($n = 3$). 
+\end{example}
+
+\begin{example}[Order matters, w/o replacement]
+We have a jar with $n$ balls, numbered $1$ to $n$. Each time we take a ball out, we \textit{don't} return it to the jar. Thus, there are $n$ possibilities for the first sampled ball, $n - 1$ possibilities for the second sampled ball, etc., so there are $n(n - 1) \cdots (n - k + 1)$ ways to obtain a sample of size $k$.
+
+$\bullet$ E.g., there are $\frac{3!}{(3 - 2)!} = 3 \times 2 = 6$ ways to choose who is first and who is second ($k = 2$) in a race with $3$ people ($n = 3$).
+\end{example}
+
+\begin{example}[Order doesn't matter, w/ replacement]
+This counting method is \textit{not} covered in STAT 110 this year!
+\end{example}
+
+\begin{example}[Order doesn't matter, w/o replacement]
+We have a jar with $n$ balls, numbered $1$ to $n$. Each time we take a ball out, we \textit{don't} return it to the jar. Thus, there are $n$ possibilities for the first sampled ball, $n - 1$ possibilities for the second sampled ball, etc., but if we \textit{don't} distinguish between order (e.g., $\{1, 2\} = \{2, 1\}$), then we divide by $k!$ to avoid overcounting different permutations of the same group, so there are $\frac{n(n - 1) \cdots (n - k + 1)}{k!}$ ways to obtain a sample of size $k$.
+
+$\bullet$ E.g., there are $\binom{3}{2} = \frac{3 \times 2}{2!} = \frac{3!}{(3 - 2)! 2!} = 3$ ways to choose which pairs get top $2$ ($k = 2$) in a race with $3$ people ($n = 3$).
+\end{example}
+
+\begin{concept}
+What is the difference between the \enquote{Order Matters, w/o Replacement} and \enquote{Order Doesn't Matter, w/o Replacement}—mathematically and intuitively?
+\end{concept}
+
+\begin{solutionbox}
+Mathematically, \enquote{Order Doesn't Matter, w/o Replacement}—i.e., $\binom{n}{k}$—takes \enquote{Order Matters, w/o Replacement}—i.e., $\frac{n!}{(n - k)!}$—and divides by $k!$. Intuitively, if order doesn't matter, we're overcounting by the $k!$ permutations of the same group. Consider choosing $2$ people out of $3$ (i.e., $n = 3$ and $k = 2$). There are $3 \times 2 = 6$ ways to choose who is first and who is second (i.e., order matters such that $\{\text{Alice}, \text{Bob}\} \neq \{\text{Bob}, \text{Alice}\}$), but if we only care about choosing which pairs get top two, then we've overcounted by $2! = 2$ (i.e., order doesn't matter such that $\{\text{Alice}, \text{Bob}\} = \{\text{Bob}, \text{Alice}\}$). Thus, there are $\binom{3}{2} = \frac{3 \times 2}{2} = 3$ ways to choose which pairs get top $2$.
+\end{solutionbox}
+
+\begin{concept}
+How many ways are there to permute the letters in \enquote{GUSH}? How about in \enquote{GUUUSH}?
+\end{concept}
+
+\begin{solutionbox}
+First, there are $4! = 24$ permutations of \enquote{GUSH}. Using the table, we are sampling $k = 4$ from $n = 4$ without replacement and where order matters. Using the multiplication rule, we can illustrate this with a tree diagram. Second, there are $\binom{6}{3} \binom{3}{1} \binom{2}{1} \binom{1}{1} = \frac{6!}{3!} = 120$ permutations of \enquote{GUUUSH}. One method is to choose where to put the $3$ U's, then where to put the $1$ G (from the remaining spots), then where to put the $1$ S, and then where to put the $1$ H. Another method is to start with $6!$ and adjust for overcounting, dividing by $3!$ since the $3$ U's can be permuted among themselves in any way (e.g., \enquote{$\text{G} \text{U}_1 \text{U}_2 \text{U}_3 \text{S} \text{H}$} is effectively the same as \enquote{$\text{G} \text{U}_3 \text{U}_2 \text{U}_1 \text{S} \text{H}$}).
+\end{solutionbox}
+
+% Section: Story Proofs
+\section{Story Proofs}
+
+\begin{idea}
+Formal mathematical proofs can be difficult, so often, it is easier (and better for building intuition) to use \textit{story proofs}, which will appear throughout the course.
+\end{idea}
+
+\begin{definition}[Story proof]
+A proof by interpretation or application rather than algebra or calculus.
+\end{definition}
+
+\begin{example}[Symmetry rule for binomial coefficients]
+$\binom{n}{k} = \binom{n}{n - k}$.
+\end{example}
+
+\begin{proof}
+If we want to choose $k$ people out of $n$, we can either directly pick the $k$ people to be included (left-hand side) or pick the $n - k$ people to be not included (right-hand side). E.g., there are $\binom{3}{2} = 3$ ways to choose which pairs get top $2$ ($k = 2$) in a race with $3$ people ($n = 3$). Equivalently, there are $\binom{3}{1} = 3$ ways to choose which person does not get top $2$ ($n - k = 1$).
+\end{proof}
+
+\begin{concept}
+Show that for $k > n$, $\binom{n}{k} = 0$ via story proof.
+\end{concept}
+
+\begin{solutionbox}
+E.g., let $k = 3$ and $n = 2$. How many ways are there to choose a group of $3$ from $2$ people? None!
+\end{solutionbox}
+
+\begin{concept}
+Show that $\binom{r}{m} \binom{m}{k} = \binom{r}{k} \binom{r - k}{m - k}$ via story proof.
+\end{concept}
+
+\begin{solutionbox}
+On the left-hand side, we pick a team (of size $m$) from a class (of size $r$) and then pick $k$ leaders from the team. On the right-hand side, we pick the $k$ leaders directly from the class (of size $r$) and then, from the remaining classmates (of which there are $r - k$), pick the non-leader teammates (of which there are $m - k$).
+\end{solutionbox}
+
+% Section: Exercises
+\section{Exercises}
+
+\begin{problem}
+\textit{Connections} is a popular puzzle published by \textit{The New York Times}, where players are presented with a grid of $16$ words and must organize them into $4$ distinct groups (each of $4$ words) that share a hidden common theme. These categories are color-coded by difficulty, with yellow being the easiest and purple being the hardest. The player wins once they successfully find $3$ connections (since the last one is deterministic), but they are only allowed $4$ mistakes across the entire puzzle.
+
+(a) If a person randomly guesses $4$ words at the beginning, what is the probability that they will find a connection?
+
+(b) If a person randomly guesses $4$ words at the beginning, what is the probability that they will find the purple connection?
+
+(c) Your friend claims that they found all $4$ connections with no mistakes by randomly guessing. How likely is this?
+\end{problem}
+
+\begin{solutionbox}
+(a) Using the naive definition of probability, $p = \frac{4}{\binom{16}{4}} = \frac{1}{455} = 0.00219$. There are $\binom{16}{4}$ ways to choose an unordered group of $4$ from the $16$ words, and $4$ of those are connections.
+
+(b) Using the naive definition of probability, $p = \frac{1}{\binom{16}{4}} = \frac{1}{1820} = 0.00054$. There are $\binom{16}{4}$ ways to choose an unordered group of $4$ from the $16$ words, and $1$ of those is the purple connection.
+
+(c) Using the naive definition of probability, $p = \frac{1}{\binom{16}{4} \binom{12}{4} \binom{8}{4} / 4!} = \frac{1}{2627625}$, which is extremely unlikely. If a player just randomly divides the $16$ words into $4$ distinct groups (each of $4$ words), there are $\binom{16}{4} \binom{12}{4} \binom{8}{4} / 4!$ ways to do this, and only $1$ of those is the correct partition corresponding to $4$ connections. Alternatively, $p = \frac{4}{\binom{16}{4}} \times \frac{3}{\binom{12}{4}} \times \frac{2}{\binom{8}{4}} = \frac{1}{2627625}$. Since the player wins once they find any $3$ of the $4$ connections, we need the first $3$ random guesses to all be correct. For the first guess, there are $4$ correct choices out of $\binom{16}{4}$ possibilities. After $1$ connection is found, there are $3$ correct choices out of $\binom{12}{4}$ possibilities. After $2$ connections are found, there are $2$ correct choices out of $\binom{8}{4}$ possibilities.
+\end{solutionbox}
+
+\begin{problem}
+Suppose that an item from Chipotle is constructed by making the following choices:
+
+$\bullet$ type: burrito, burrito bowl, soft taco, crispy taco, salad
+
+$\bullet$ rice: white, brown
+
+$\bullet$ beans: black, pinto
+
+$\bullet$ meat: chicken, steak, carnitas, barbacoa
+
+$\bullet$ vegetable: lettuce, onions
+
+$\bullet$ topping: cheese, guacamole, sour cream
+
+$\bullet$ salsa: corn, green, red, tomato.
+
+One type is chosen, but for the other categories, any combination is possible (e.g., the item can have up to all four types of salsa, or it can have no salsa). For simplicity, assume that ordering a taco gives only one taco (rather than being a set of $3$ tacos where different ingredients could be added to each).\footnote{Inspired by Problem 1 in \enquote{Stat 110 Homework 1, Fall 2024} by Joseph K. Blitzstein.}
+
+(a) A hungry person orders an item. How many possibilities are there for what the item is?
+
+(b) A very hungry person orders $2$ items. How many possibilities are there for what the $2$ items are?
+\end{problem}
+
+\begin{solutionbox}
+(a) There are $5 \times 2^2 \times 2^2 \times 2^4 \times 2^2 \times 2^3 \times 2^4 = 655360$ possibilities. We must choose $1$ of the $5$ types, but for each of the other categories, there are $2^n$ possibilities (e.g., for rice, we can have no rice, white rice, brown rice, or white rice and brown rice, with $2^2 = 4$ possibilities).
+
+(b) Notice that this is very similar to the Jefe's/Felipe's problem (i.e., Concept Checker $5$). There are $2$ choices for order (i.e., first item vs. second item), so at each previous possibility, there are $655360$ more branches that correspond to the second item. But we only care about what items we can get, so we're looking for unordered possibilities. E.g., burrito with nothing in it as the first item and burrito bowl with nothing in it as the second item is the same as burrito bowl with nothing in it as the first item and burrito with nothing in it as the second item. We cannot simply divide $655360^2$ by $2$ since some possibilities repeat and are only listed once (e.g., burrito with nothing in it as the first and second item). There are $655360$ of these repeaters, so the number of unordered possibilities that aren't the same is $655360^2 - 655360$. We double count these, so the number of unordered possibilities that aren't the same is $\frac{655360^2 - 655360}{2}$. We add the $655360$ repeaters that are only listed once, so there are $\frac{655360^2 - 655360}{2} + 655360 = 214748692480$ possibilities. Alternatively, there are $\binom{655360}{2}$ ways to choose unordered pairs of orders, and we add the $655360$ orders that are repeats to get $\binom{655360}{2} + 655360 = 214748692480$ possibilities.
+\end{solutionbox}
+
+\begin{problem}
+Pineapple Computer hopes to design an amazing new tablet. They split $42$ engineers into $3$ teams of $14$. Each team will create a design independently, and then the company will choose the best of the $3$ designs.\footnote{Inspired by Problem 2 in \enquote{Stat 110 Homework 1, Fall 2024} by Joseph K. Blitzstein.}
+
+(a) Assume that we don't distinguish between teams (e.g., $\{A, B, \ldots, N\}$ being the \enquote{first} team is the same as their being the \enquote{last} team). How many possibilities are there for the compositions of the teams? 
+
+(b) For this part only, assume that instead the $42$ engineers are split into a team of $6$, a team of $12$, and a team of $24$ (since the company is interested in whether a larger team will come up with a better design). How many possibilities are there for the compositions of the teams?
+
+(c) $2$ of the $42$ engineers, Amos and Daniel, are best friends. Suppose that for this part the teams will be kept in separate silos: Silo 1, Silo 2, and Silo 3. The creation of teams and the assignments to silos are completely random (with all possibilities equally likely). Find the probability that Amos and Daniel will work in the same silo, using the naive definition of probability where the denominator counts all possible ways to divide the engineers into silos.
+
+(d) Solve (c) in a simpler way: Imagine that each silo has $14$ seats and that we first fix Amos’ seat and then randomly choose Daniel’s seat.
+\end{problem}
+
+\begin{solutionbox}
+(a) There are $\frac{\binom{42}{14} \binom{28}{14} \binom{14}{14}}{3!}$ possibilities. First, there are $\binom{42}{14}$ ways to choose an unordered group of size $14$ from the $42$ engineers, and once those are fixed, there are $\binom{28}{14}$ ways to choose an unordered group of size $14$ from the remaining $28$. The final group is deterministic (i.e., $\binom{14}{14} = 1$). But the teams are indistinguishable, so we divide by $3!$ to adjust for overcounting (i.e., $\binom{42}{14} \binom{28}{14} \binom{14}{14}$ constructs the teams sequentially, so each final grouping is counted $3!$ times, once for every ordering of the same three teams).
+
+(b) There are $\binom{42}{6} \binom{36}{12} \binom{24}{24}$ possibilities. Notice that the teams are distinct sizes, so we don't divide by $3!$.
+
+(c) First, the number of possible ways to divide the engineers into silos is $\binom{42}{14} \binom{28}{14} \binom{14}{14}$. Notice that we don't divide by $3!$ since we distinguish between silos (i.e., there are $\binom{42}{14}$ ways to choose those in Silo 1 and, afterwards, $\binom{28}{14}$ ways to choose those in Silo 2). Next, we want to count the number of possibilities where Amos and Daniel work in the same silo. Let's begin with the possibilities where they work in Silo 1. Once that is fixed, there are $\binom{40}{12}$ ways to choose the remaining engineers in Silo 1, and once those are fixed, there are $\binom{28}{14}$ ways to choose those in Silo 2. Silo 3 is deterministic (i.e., $\binom{14}{14} = 1$). Amos and Daniel could've worked in any of the 3 silos, so we multiply by 3. Thus, the probability is $\frac{3 \binom{40}{12} \binom{28}{14} \binom{14}{14}}{\binom{42}{14} \binom{28}{14} \binom{14}{14}} = \frac{3 \binom{40}{12}}{\binom{42}{14}} = \frac{13}{41}$.
+
+(d) Once Amos is placed in a silo, there are $41$ remaining spots (or \enquote{seats}) Daniel could occupy, and $13$ of them are in Amos’s silo. Thus, the probability is $\frac{13}{41}$.
+\end{solutionbox}
+
+\end{document}
